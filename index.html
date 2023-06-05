@@ -86,8 +86,20 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+<script>
+  window.TrackJS && TrackJS.install({ 
+    token: "f88932b6daf948cda74c90488a9532d7"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+</script>
+                        
   <script>
+    TrackJS.track('Testing TrackJS!');
+    window.onerror = function(message, source, lineno, colno, error) {
+      console.log('Error:', message);
+    };
+                        
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -99,9 +111,109 @@
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    // ...
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    // Console Log
+    errorBtns[0].addEventListener('click', () => {
+      console.log('This is a console log message');
+    });
+
+    // Console Error
+    errorBtns[1].addEventListener('click', () => {
+      console.error('This is a console error message');
+    });
+
+    // Console Count
+    let count = 0;
+    errorBtns[2].addEventListener('click', () => {
+      count++;
+      console.count('Button Click Count', count);
+    });
+
+    // Console Warn
+    errorBtns[3].addEventListener('click', () => {
+      console.warn('This is a console warning message');
+    });
+
+    // Console Assert
+    errorBtns[4].addEventListener('click', () => {
+      console.assert(false, 'Assertion failed');
+    });
+
+    // Console Clear
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+
+    // Console Dir
+    errorBtns[6].addEventListener('click', () => {
+      console.dir(document);
+    });
+
+    // Console Dirxml
+    errorBtns[7].addEventListener('click', () => {
+      console.dirxml(document);
+    });
+
+    // Console Group Start / Group End
+    errorBtns[8].addEventListener('click', () => {
+      console.group('Group Start');
+      console.log('This is inside the group');
+    });
+
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd();
+    });
+
+    // Console Table
+    errorBtns[10].addEventListener('click', () => {
+      console.table([{ name: 'John', age: 30 }, { name: 'Alice', age: 25 }]);
+    });
+
+    // Start Timer
+    errorBtns[11].addEventListener('click', () => {
+      console.time('Timer');
+    });
+
+    // End Timer
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd('Timer');
+    });
+
+    // Console Trace
+    errorBtns[13].addEventListener('click', () => {
+      console.trace();
+    });
+    class DivisionError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = 'DivisionError';
+      }
+    }
+    // Trigger a Global Error
+    errorBtns[14].addEventListener('click', () => {
+        nonexisterror();
+       throw new DivisionError("Error!");
+    });
+
+    try {
+      const Num = 1;
+      const Num1 = 1;
+      if (Num == Num1) {
+        throw new DivisionError('Invalid input: Please enter valid numbers');
+      }
+      const para = document.getElementById("wrong");
+        if (para == undefined) 
+          throw new DivisionError("Tag was not found!");
+    } catch (error) {
+      if (error instanceof DivisionError) {
+          console.log('Custom error occurred:', error.message);
+        } else {
+          console.error('An error occurred:', error.message);
+        }
+    } finally {
+      console.log('Calculation complete');
+    }
   </script>
 </body>
 
